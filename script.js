@@ -2,8 +2,8 @@
         // GANTI DENGAN DATA EMQX ANDA!
         const EMQX_CONFIG = {
             broker: 'wss://c2851b04.ala.asia-southeast1.emqxsl.com:8084/mqtt',
-            username: 'Lutfi',           // GANTI dengan username Anda
-            password: 'Lutfi',   // GANTI dengan password Anda
+            username: '',           // GANTI dengan username Anda
+            password: '',   // GANTI dengan password Anda
             topic: 'iot/ph_air'
         };
 
