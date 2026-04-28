@@ -61,27 +61,6 @@
                         phValue = parseFloat(jsonData.value);
                     }
                 } catch(e) {
-                    // Kalau bukan JSON, anggap langsung angka            mqttClient.on('message', (topic, message) => {
-                const rawMessage = message.toString();
-                console.log('📨 Message received - Topic:', topic, '| Message:', rawMessage);
-                
-                let phValue;
-                
-                // Coba parse sebagai JSON dulu
-                try {
-                    const jsonData = JSON.parse(rawMessage);
-                    // Kalau format JSON dengan key "iot/ph_air"
-                    if (jsonData["iot/ph_air"]) {
-                        phValue = parseFloat(jsonData["iot/ph_air"]);
-                    }
-                    // Atau kalau format JSON lain
-                    else if (jsonData.ph) {
-                        phValue = parseFloat(jsonData.ph);
-                    }
-                    else if (jsonData.value) {
-                        phValue = parseFloat(jsonData.value);
-                    }
-                } catch(e) {
                     // Kalau bukan JSON, anggap langsung angka
                     phValue = parseFloat(rawMessage);
                 }
@@ -96,18 +75,6 @@
                     console.log('❌ Invalid pH value:', rawMessage);
                 }
             });
-                    phValue = parseFloat(rawMessage);
-                }
-                
-                if (!isNaN(phValue) && phValue >= 3 && phValue <= 10) {
-                    currentPh = phValue;
-                    updatePhDisplay();
-                    updateTimestamp();
-                    addToHistory(phValue);
-                    console.log('✅ pH updated to:', currentPh);
-                } else {
-                    console.log('❌ Invalid pH value:', rawMessage);
-                }
 
             mqttClient.on('error', (err) => {
                 console.error('❌ MQTT Error:', err);
@@ -120,6 +87,7 @@
                 document.getElementById('mqttStatus').innerHTML = '❌ Terputus dari EMQX';
                 document.getElementById('mqttStatus').className = 'connection-status status-disconnected';
             });
+        }
 
         // ================= HISTORY =================
         function addToHistory(ph) {
