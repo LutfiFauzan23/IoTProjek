@@ -41,35 +41,20 @@
             });
 
             mqttClient.on('message', (topic, message) => {
-                const rawMessage = message.toString();
-                console.log('📨 Message received - Topic:', topic, '| Message:', rawMessage);
-                
-                let phValue;
-                
-                // Coba parse sebagai JSON dulu
-                try {
-                    const jsonData = JSON.parse(rawMessage);
-                    // Kalau format JSON dengan key "iot/ph_air"
-                    if (jsonData["iot/ph_air"]) {
-                        phValue = parseFloat(jsonData["iot/ph_air"]);
-                    }
-                    // Atau kalau format JSON lain
-                    else if (jsonData.ph) {
-                        phValue = parseFloat(jsonData.ph);
-                    }
-                    else if (jsonData.value) {
-                        phValue = parseFloat(jsonData.value);
-                    }
-                } catch(e) {
-                    // Kalau bukan JSON, anggap langsung angka
-                    phValue = parseFloat(rawMessage);
-                }
-                
-                if (!isNaN(phValue) && phValue >= 3 && phValue <= 10) {
+                const rawMessage = message.toString().trim();  // 🔥 FIX 1
+
+                console.log('RAW:', rawMessage);
+
+                let phValue = parseFloat(rawMessage); // 🔥 FIX 2
+
+                console.log("PARSED:", phValue, typeof phValue);
+
+                if (!isNaN(phValue) && phValue >= 0 && phValue <= 14) {  // 🔥 FIX 3
                     currentPh = phValue;
                     updatePhDisplay();
                     updateTimestamp();
                     addToHistory(phValue);
+
                     console.log('✅ pH updated to:', currentPh);
                 } else {
                     console.log('❌ Invalid pH value:', rawMessage);
