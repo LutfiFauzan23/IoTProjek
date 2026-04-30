@@ -10,7 +10,7 @@
         let currentPh = 6.8;
         let phHistory = [];
         let mqttClient = null;
-
+ 
         // ================= MQTT CONNECTION =================
         function connectMQTT() {
             const options = {
@@ -103,7 +103,7 @@
             const statusEl = document.getElementById('phStatus');
             const statusInfo = document.getElementById('statusInfo');
             
-            if (currentPh >= 5.5 && currentPh <= 6.8) {
+            if (currentPh >= 5.5 && currentPh <= 6.5) {
                 statusEl.className = 'ph-status optimal';
                 statusEl.innerHTML = '✓ Optimal';
                 statusInfo.innerHTML = 'Optimal ✓';
